@@ -15,11 +15,10 @@ export const App: React.FC = () => {
   const [tempTodo, setTempTodo] = useState<Todo | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [todoDelete, setTodoDelete] = useState<number[]>([]);
-  const userId = USER_ID;
 
-  function close() {
+  const close = () => {
     setErrorMessage('');
-  }
+  };
 
   function loadTodos() {
     todoService
@@ -36,7 +35,7 @@ export const App: React.FC = () => {
     }
   }, [errorMessage]);
 
-  useEffect(loadTodos, [userId]);
+  useEffect(loadTodos, []);
 
   const filteredTodos = todos.filter(todo => {
     switch (filter) {
@@ -127,7 +126,7 @@ export const App: React.FC = () => {
         />
         {todos.length !== 0 && (
           <Footer
-            filter={filter}
+            byFilter={filter}
             activeTodos={activeTodos}
             nonActiveTodos={nonActiveTodos.length}
             setFilter={setFilter}

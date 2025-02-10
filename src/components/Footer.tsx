@@ -1,8 +1,9 @@
+import classNames from 'classnames';
 import { Todo } from '../types/Todo';
 import { SelectOption } from '../types/Todo';
 
 type Props = {
-  filter: string;
+  byFilter: SelectOption;
   setFilter: (status: SelectOption) => void;
   todos: Todo[];
   onClearCompleted: () => void;
@@ -11,7 +12,7 @@ type Props = {
 };
 
 export const Footer: React.FC<Props> = ({
-  filter,
+  byFilter,
   setFilter,
   activeTodos,
   nonActiveTodos,
@@ -23,30 +24,19 @@ export const Footer: React.FC<Props> = ({
         {activeTodos} items left
       </span>
       <nav className="filter" data-cy="Filter">
-        <a
-          href="#/"
-          className={`filter__link ${filter === 'all' ? 'selected' : ''}`}
-          data-cy="FilterLinkAll"
-          onClick={() => setFilter(SelectOption.All)}
-        >
-          All
-        </a>
-        <a
-          href="#/active"
-          className={`filter__link ${filter === 'active' ? 'selected' : ''}`}
-          data-cy="FilterLinkActive"
-          onClick={() => setFilter(SelectOption.Active)}
-        >
-          Active
-        </a>
-        <a
-          href="#/completed"
-          className={`filter__link ${filter === 'completed' ? 'selected' : ''}`}
-          data-cy="FilterLinkCompleted"
-          onClick={() => setFilter(SelectOption.Completed)}
-        >
-          Completed
-        </a>
+        {Object.values(SelectOption).map(filterBy => (
+          <a
+            key={filterBy}
+            href={`#/${filterBy}`}
+            className={classNames('filter__link', {
+              selected: byFilter === filterBy,
+            })}
+            data-cy={`FilterLink${filterBy[0].toUpperCase() + filterBy.slice(1)}`}
+            onClick={() => setFilter(filterBy)}
+          >
+            {filterBy[0].toUpperCase() + filterBy.slice(1)}
+          </a>
+        ))}
       </nav>
 
       <button
