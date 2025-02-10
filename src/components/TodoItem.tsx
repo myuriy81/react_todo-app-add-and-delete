@@ -14,10 +14,12 @@ export const TodoItem: React.FC<Props> = ({
   tempTodo,
   isDeleting,
 }) => {
+  const { completed, title, id } = todo;
+
   return (
     <div
       data-cy="Todo"
-      className={classNames('todo', { completed: todo.completed })}
+      className={classNames('todo', { completed: completed })}
       key={todo.id}
     >
       {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
@@ -26,18 +28,18 @@ export const TodoItem: React.FC<Props> = ({
           data-cy="TodoStatus"
           type="checkbox"
           className="todo__status"
-          checked={todo.completed}
+          checked={completed}
         />
       </label>
 
       <span data-cy="TodoTitle" className="todo__title">
-        {todo.title}
+        {title}
       </span>
       <button
         type="button"
         className="todo__remove"
         data-cy="TodoDelete"
-        onClick={() => deleteTodo(todo.id)}
+        onClick={() => deleteTodo(id)}
       >
         ×
       </button>
